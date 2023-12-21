@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuki.bigdata.mapper.AllAllMapper">
+
+    <resultMap id="BaseResultMap" type="com.yuki.bigdata.entity.AllAll">
+            <result property="crew1" column="crew1" jdbcType="VARCHAR"/>
+            <result property="crew2" column="crew2" jdbcType="VARCHAR"/>
+            <result property="cooperation" column="cooperation" />
+            <result property="asin" column="asin"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        crew1,crew2,asin,
+        cooperation
+    </sql>
+    <select id="getCountCooperationActor" resultType="com.alibaba.fastjson.JSONObject">
+        select size(asin) times,crew2 crew from all_all
+        where crew1=#{crew}
+        and (cooperation='actor_actor' or cooperation='director_actor')
+        union
+        select size(asin) times,crew1 crew from all_all
+        where crew2=#{crew}
+        and (cooperation='actor_actor')
+    </select>
+    <select id="getCountCooperationDirector" resultType="com.alibaba.fastjson.JSONObject">
+        select size(asin) times,crew2 crew from all_all
+        where crew1=#{crew}
+        and cooperation='director_director'
+        union
+        select size(asin) times,crew1 crew from all_all
+        where crew2=#{crew}
+        and cooperation='director_actor'
+    </select>
+</mapper>

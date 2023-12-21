@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuki.bigdata.mapper.RoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.yuki.bigdata.entity.Role">
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="asin" column="asin" jdbcType="VARCHAR"/>
+            <result property="role" column="role" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        name,asin,role
+    </sql>
+</mapper>

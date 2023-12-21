@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuki.bigdata.mapper.MovieMapper">
+
+    <resultMap id="BaseResultMap" type="com.yuki.bigdata.entity.Movie">
+            <result property="asin" column="asin" jdbcType="VARCHAR"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="starRating" column="star_rating" jdbcType="DECIMAL"/>
+            <result property="production" column="production" jdbcType="VARCHAR"/>
+            <result property="runTime" column="run_time" jdbcType="VARCHAR"/>
+            <result property="releaseDay" column="release_day" jdbcType="DATE"/>
+            <result property="releaseYear" column="release_year" jdbcType="INTEGER"/>
+            <result property="releaseMonth" column="release_month" jdbcType="INTEGER"/>
+            <result property="releaseSeason" column="release_season" jdbcType="VARCHAR"/>
+            <result property="style" column="style" jdbcType="VARCHAR"/>
+            <result property="directors" column="directors" jdbcType="VARCHAR"/>
+            <result property="actors" column="actors" jdbcType="VARCHAR"/>
+            <result property="additionalOption" column="additionalOption" jdbcType="VARCHAR"/>
+            <result property="otherFormat" column="otherFormat" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        asin,title,star_rating,
+        production,run_time,release_day,
+        release_year,release_month,release_season,
+        style,directors,actors,
+        additional_option,other_format
+    </sql>
+    <select id="getCountByYear" resultType="integer">
+        select count(*) from movie where release_year=#{year}
+    </select>
+
+    <select id="getCountByYearMonth" resultType="integer">
+        select count(*) from movie where release_year=#{year} and release_month=#{month}
+    </select>
+    <select id="getCountByDay" resultType="integer">
+        select count(*) from movie where release_day=#{date}
+    </select>
+    <select id="getCountByYearSeason" resultType="integer">
+        select count(*) from movie where release_year=#{year} and release_season=#{season}
+    </select>
+    <select id="getCooperationMax" resultType="com.alibaba.fastjson.JSONObject">
+        select sum(size(asin)) times,crew1,crew2 from all_all
+        group by crew1, crew2
+        order by times desc
+        limit 1
+    </select>
+    <select id="getCountByActorYear" resultType="java.lang.Integer">
+        select count(*) times from movie
+        where release_year=#{year} and array_contains(actors,#{name})
+    </select>
+
+
+</mapper>
